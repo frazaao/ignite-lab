@@ -1,6 +1,7 @@
 import { gql, useMutation } from "@apollo/client";
 import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Header from "../components/Header";
 import Logo from "../components/Logo";
 
 const CREATE_SUBSCRIBER_QUERY = gql`
@@ -32,6 +33,8 @@ export default function Subscribe(){
     }
 
     return (
+        <>
+        <Header />
         <div className="min-h-screen bg-blur bg-cover bg-no-repeat flex flex-col items-center">
             <div className="w-full max-w-[1100px] flex items-center justify-between mt-20 mx-auto">
                 <div className="max-w-[640px]">
@@ -78,5 +81,6 @@ export default function Subscribe(){
 
             <img src="/src/assets/code-mockup.png" className="mt-10" alt="" />
         </div>
+        </>
     )
 }

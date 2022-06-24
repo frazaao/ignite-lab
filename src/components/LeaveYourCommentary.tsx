@@ -1,4 +1,5 @@
 import { gql, useMutation } from "@apollo/client";
+import { useAuth0 } from "@auth0/auth0-react";
 import { FormEvent, useState } from "react";
 import { useLessons } from "../hooks/useLessons";
 
@@ -19,6 +20,8 @@ export default function LeaveYourCommentary({slug = ""}){
 
     const { refetch } = useLessons();
 
+    const { user, loginWithRedirect } = useAuth0();
+
     const [ commentary, setCommentary ] = useState("");
 
     const [ createCommentary, { loading } ] = useMutation(CREATE_COMMENTARY_QUERY);
@@ -28,12 +31,22 @@ export default function LeaveYourCommentary({slug = ""}){
         await createCommentary({
             variables: {
                 content: commentary,
-                authorName: "Matheus",
+                authorName: user?.name,
                 lessonSlug: slug
             }
         })
 
         refetch()
+    }
+
+    if(!user){
+        return(
+            <div className="text-center mb-4">
+                <span>
+                    Faça <a href="#" className="text-blue-500 font-bold" onClick={() => {loginWithRedirect()}}>login</a> e deixe um comentário
+                    </span>
+            </div>
+        )
     }
 
     return (

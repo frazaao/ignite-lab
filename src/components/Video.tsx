@@ -116,6 +116,13 @@ export default function Video({ lessonSlug }: VideoProps){
                 <span className="block text-2xl">
                     Comentários
                 </span>
+
+                { data.commentaries.length == 0 && (
+                    <div className="text-center border-gray-500 p-8">
+                        Ainda não temos nenhum comentário 😐
+                    </div>
+                )}
+
                 { data.commentaries.map((commentary) => {
                     return <Commentary key={commentary.id} commentary={commentary} />
                 }) }
