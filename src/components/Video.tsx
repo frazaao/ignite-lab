@@ -1,36 +1,9 @@
 import { DefaultUi, Player, Youtube } from "@vime/react";
 import { CaretRight, DiscordLogo, FileArrowDown, Image, Lightning } from "phosphor-react";
-
 import '@vime/core/themes/default.css';
-import { gql, useQuery } from "@apollo/client";
-
-const GET_LESSON_BY_SLUG_QUERY = gql`
-    query GetLessonBySlug($slug: String){
-        lesson(where: { slug: $slug }){
-            title,
-            videoId,
-            description,
-            teacher{
-                bio,
-                avatarURL,
-                name
-            }
-        }
-    }
-`;
-
-interface GetLessonBySlugResponse {
-    lesson: {
-        title: string,
-        videoId: string,
-        description: string,
-        teacher: {
-            bio: string,
-            avatarURL: string,
-            name: string,
-        }
-    }
-}
+import Commentary from "./Commentary";
+import LeaveYourCommentary from "./LeaveYourCommentary";
+import { useLessons } from "../hooks/useLessons";
 
 interface VideoProps{
     lessonSlug: string
@@ -38,11 +11,7 @@ interface VideoProps{
 
 export default function Video({ lessonSlug }: VideoProps){
 
-    const { data } = useQuery<GetLessonBySlugResponse>(GET_LESSON_BY_SLUG_QUERY, {
-        variables: {
-            slug: lessonSlug,
-        }
-    });
+    const { data } = useLessons();
 
     if(!data){
         return(
@@ -142,6 +111,15 @@ export default function Video({ lessonSlug }: VideoProps){
                         </div>
                     </a>
                 </div>
+            </div>
+            <div className="p-8 max-w-[1100px] mx-auto flex flex-col gap-8">
+                <span className="block text-2xl">
+                    Comentários
+                </span>
+                { data.commentaries.map((commentary) => {
+                    return <Commentary key={commentary.id} commentary={commentary} />
+                }) }
+                <LeaveYourCommentary slug={lessonSlug} />
             </div>
         </div>
     )

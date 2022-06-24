@@ -6,7 +6,8 @@ function App() {
 
   return (
     <ApolloProvider client={client} >
-      <Router />
+      
+        <Router />
     </ApolloProvider>
   )
 }
