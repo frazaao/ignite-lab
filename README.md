@@ -19,6 +19,7 @@ Este projeto foi desenvolvido utilizando as seguintes dependências:
 - [TailwindCSS](https://tailwindcss.com/)
 - [Vime](https://vimejs.com/)
 - [GraphQLCodegen](https://www.graphql-code-generator.com/)
+- [Auth0](https://auth0.com/)
 
 ## 👀Observações
 Este projeto consome APIs diretamente do GraphCMS e para que vc tenha a mesma estrutura de dados que eu utilizo nesse projeto, vou diponibilizar abaixo um link para clonar o meu projeto.
