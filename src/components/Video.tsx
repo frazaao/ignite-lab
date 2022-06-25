@@ -13,7 +13,7 @@ export default function Video({ lessonSlug }: VideoProps){
 
     const { data } = useLessons();
 
-    if(!data){
+    if(!data || !data.lesson){
         return(
             <div className="flex-1">
                 <p>Carregando...</p>
@@ -42,6 +42,7 @@ export default function Video({ lessonSlug }: VideoProps){
                             {data.lesson.description}
                         </p>
 
+                        { data.lesson.teacher && 
                         <div className="flex items-center gap-4 mt-6">
                             <img 
                             className="h-16 w-16 rounded-full border-2 border-blue-500"
@@ -56,7 +57,8 @@ export default function Video({ lessonSlug }: VideoProps){
                                     {data.lesson.teacher.bio}
                                 </span>
                             </div>
-                        </div>
+                        </div> 
+                        }
                     </div>
                     
                     <div className="flex flex-col gap-4">

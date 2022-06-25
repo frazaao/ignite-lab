@@ -1,16 +1,18 @@
 import { format } from 'date-fns';
 import  ptBR  from 'date-fns/locale/pt-BR';
+import { CommentaryCreateInput } from '../graphql/generated';
 
 interface CommentaryProps{
-    commentary: {
-        id: string,
-        authorName: string,
-        content: string,
-        createdAt: Date,
-    }
+    commentary?:CommentaryCreateInput
 }
 
-export default function Commentary({ commentary }: CommentaryProps){    
+export default function Commentary({ commentary }:CommentaryProps ){    
+
+    if(!commentary){
+        return(
+            <div></div>
+        )
+    }
 
     const createdAtDate = new Date(commentary.createdAt)
 

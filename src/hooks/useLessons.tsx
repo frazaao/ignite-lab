@@ -1,49 +1,9 @@
-import { gql, useQuery } from "@apollo/client";
 import { createContext, useContext } from "react";
 import { useParams } from "react-router-dom";
-
-const GET_LESSON_BY_SLUG_QUERY = gql`
-    query GetLessonBySlug($slug: String){
-        lesson(where: { slug: $slug }){
-            title,
-            videoId,
-            description,
-            teacher{
-                bio,
-                avatarURL,
-                name
-            }
-        }
-        commentaries(where: { lessonSlug: $slug }, stage:DRAFT){
-            id,
-            authorName,
-            content,
-            createdAt,
-        }
-    }
-`;
-
-interface GetLessonBySlugResponse {
-    lesson: {
-        title: string,
-        videoId: string,
-        description: string,
-        teacher: {
-            bio: string,
-            avatarURL: string,
-            name: string,
-        }
-    },
-    commentaries: {
-        id: string,
-        authorName: string,
-        content: string,
-        createdAt: Date,
-    }[]
-}
+import { GetLessonBySlugQuery, useGetLessonBySlugQuery } from "../graphql/generated";
 
 interface createContextProps {
-    data: GetLessonBySlugResponse | undefined,
+    data: GetLessonBySlugQuery | undefined,
     refetch: () => void;
 }
 
@@ -73,11 +33,11 @@ export default function LessonsProvider({children}:LessonsProviderProps) {
 
     const { slug } = useParams<{ slug:string }>()
 
-    const { data, refetch } = useQuery<GetLessonBySlugResponse>(GET_LESSON_BY_SLUG_QUERY, {
+    const { data, refetch } = useGetLessonBySlugQuery({
         variables: {
-            slug,
+            slug
         }
-    });
+    })
 
     return (
         <lessonsContext.Provider value={{ data, refetch }}>

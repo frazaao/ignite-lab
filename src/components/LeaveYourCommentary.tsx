@@ -1,20 +1,7 @@
-import { gql, useMutation } from "@apollo/client";
 import { useAuth0 } from "@auth0/auth0-react";
 import { FormEvent, useState } from "react";
+import { useCreateCommentaryMutation } from "../graphql/generated";
 import { useLessons } from "../hooks/useLessons";
-
-const CREATE_COMMENTARY_QUERY = gql`
-    mutation CreateCommentary($content: String!, $authorName: String!, $lessonSlug: String){
-        createCommentary(data: {
-            authorName: $authorName, 
-            content: $content,
-            lessonSlug: $lessonSlug
-        }){
-            id
-        }
-    }
-`;
-
 
 export default function LeaveYourCommentary({slug = ""}){
 
@@ -24,17 +11,19 @@ export default function LeaveYourCommentary({slug = ""}){
 
     const [ commentary, setCommentary ] = useState("");
 
-    const [ createCommentary, { loading } ] = useMutation(CREATE_COMMENTARY_QUERY);
+    const [ createCommentary, { loading } ] = useCreateCommentaryMutation();
 
     async function handleSubmit(event: FormEvent){
         event.preventDefault();
-        await createCommentary({
-            variables: {
-                content: commentary,
-                authorName: user?.name,
-                lessonSlug: slug
-            }
-        })
+        if(user && user.name){
+            await createCommentary({
+                variables: {
+                    content: commentary,
+                    authorName: user.name,
+                    lessonSlug: slug
+                }
+            })
+        }
 
         refetch()
     }

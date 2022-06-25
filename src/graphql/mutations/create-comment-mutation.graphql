@@ -1,0 +1,9 @@
+mutation CreateCommentary($content: String!, $authorName: String!, $lessonSlug: String){
+    createCommentary(data: {
+        authorName: $authorName, 
+        content: $content,
+        lessonSlug: $lessonSlug
+    }){
+        id
+    }
+}

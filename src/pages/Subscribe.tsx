@@ -1,35 +1,16 @@
-import { gql, useMutation } from "@apollo/client";
 import { FormEvent, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Logo from "../components/Logo";
-
-const CREATE_SUBSCRIBER_QUERY = gql`
-mutation CreateSubscriber($name: String!, $email:String!) {
-    createSubscriber(data: {name: $name, email: $email}) {
-    id
-    }
-}    
-`;
+import { UserCircle } from "phosphor-react";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export default function Subscribe(){
 
-    const navigate = useNavigate()
-
-    const [ name, setName ] = useState("");
-    const [ email, setEmail ] = useState("");
-
-    const [ createSubscriber, { loading } ] = useMutation(CREATE_SUBSCRIBER_QUERY)
+    const { loginWithRedirect } = useAuth0();
 
     async function handleSubmit(event: FormEvent) {
         event.preventDefault()
-        await createSubscriber({
-            variables: {
-                name,
-                email
-            }
-        })        
-        navigate('/event')
+        
     }
 
     return (
@@ -50,36 +31,22 @@ export default function Subscribe(){
                 </div>
 
                 <div className="p-8 bg-gray-700 border border-gray-500 rounded">
-                    <strong className="text-2xl mb-6 block">Inscreva-se gratuitamente</strong>
+                    <strong className="text-2xl mb-6 block">Faça login gratuitamente</strong>
                     <form onSubmit={handleSubmit} className="flex flex-col gap-2 w-full">
-                        <input 
-                            className="bg-gray-900 rounded px-5 h-14"
-                            type="text" 
-                            placeholder="Seu nome completo" 
-                            value={name}
-                            onChange={(e) => {setName(e.target.value)}}
-                        />
 
-                        <input 
-                            className="bg-gray-900 rounded px-5 h-14"
-                            type="email" 
-                            placeholder="Digite seu e-mail" 
-                            value={email}
-                            onChange={(e) => {setEmail(e.target.value)}}
-                        />
-
-                        <button 
-                        type="submit"
-                        disabled={loading}
-                        className="mt-4 bg-green-500 uppercase py-4 rounded font-bold text-sm hover:bg-green-700 transition-colors disabled:opacity-50"
+                        <button
+                            onClick={() => {loginWithRedirect()}} 
+                            type="submit"
+                            className="mt-4 flex items-center justify-center gap-4 bg-green-500 uppercase py-4 rounded font-bold hover:bg-green-700 transition-colors"
                         >
-                            Garantir minha vaga
+                            <UserCircle size={32} />
+                            Fazer login
                         </button>
                     </form>
                 </div>
             </div>
 
-            <img src="/src/assets/code-mockup.png" className="mt-10" alt="" />
+            <img src="src/assets/code-mockup.png" className="mt-10" alt="" />
         </div>
         </>
     )

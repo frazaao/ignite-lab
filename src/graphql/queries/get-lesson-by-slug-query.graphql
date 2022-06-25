@@ -1,0 +1,18 @@
+query GetLessonBySlug($slug: String){
+    lesson(where: { slug: $slug }){
+        title,
+        videoId,
+        description,
+        teacher{
+            bio,
+            avatarURL,
+            name
+        }
+    }
+    commentaries(where: { lessonSlug: $slug }, stage:DRAFT){
+        id,
+        authorName,
+        content,
+        createdAt,
+    }
+}
