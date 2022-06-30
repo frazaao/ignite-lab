@@ -2,7 +2,9 @@ query GetLessonBySlug($slug: String){
     lesson(where: { slug: $slug }){
         title,
         videoId,
-        description,
+        description{
+            html
+        },
         teacher{
             bio,
             avatarURL,

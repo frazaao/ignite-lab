@@ -39,7 +39,7 @@ export default function Video({ lessonSlug }: VideoProps){
                             {data.lesson.title}
                         </h1>
                         <p className="mt-4 text-gray-200 leading-relaxed">
-                            {data.lesson.description}
+                            {data.lesson.description?.html}
                         </p>
 
                         { data.lesson.teacher && 
