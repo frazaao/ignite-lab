@@ -12,7 +12,9 @@ const lessonsContext = createContext<createContextProps>({
         lesson: {
             title: "",
             videoId: "",
-            description: "",
+            description: {
+                html: ""
+            },
             teacher: {
                 bio: "",
                 avatarURL: "",
